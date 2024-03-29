@@ -1,5 +1,4 @@
 'use client';
-import Header from '@/app/components/header';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -20,8 +19,7 @@ export default function HomeLayout({
 }>) {
   return (
     <ThemeProvider theme={theme}>
-      <main className="home_layout">
-        <Header />
+      <main>
         <div>{children}</div>
       </main>
     </ThemeProvider>
