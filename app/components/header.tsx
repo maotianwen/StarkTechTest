@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import type { StockInfoType, ArrayElementType } from '../lib/definitions';
 import Paper from '@mui/material/Paper';
-import { useStore } from '@/app/store';
 
 const Header = ({
   options,
@@ -18,8 +17,6 @@ const Header = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-
-  const setStockTitle = useStore((state) => state.setStockTitle);
 
   const [value, setValue] = useState<ArrayElementType<typeof options> | null>(null);
   useEffect(() => {
@@ -34,10 +31,9 @@ const Header = ({
         setInputValue(
           `${defaultValue.stock_id}${defaultValue.industry_category}${defaultValue.stock_name}`
         );
-        setStockTitle(`${defaultValue.stock_name}（${defaultValue.stock_id}）`);
       }
     }
-  }, [searchParams, options, setStockTitle]);
+  }, [searchParams, options]);
 
   const handleSelect = (value: ArrayElementType<typeof options> | null) => {
     if (value) {

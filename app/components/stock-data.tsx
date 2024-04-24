@@ -7,7 +7,6 @@ import RevenueTable from './table';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useStore } from '@/app/store';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,7 +15,7 @@ import Chart from './chart';
 import { getDateNYearsAgo } from '@/app/lib/utils';
 import Empty from './empty';
 
-const StockData = () => {
+const StockData = ({ stockTitle }: { stockTitle: string }) => {
   const searchParams = useSearchParams();
   const [range, setRange] = useState('4'); //因为要计算单月营收年增率，所以展示3年数据实际上需要请求近4年的数据
 
@@ -44,8 +43,6 @@ const StockData = () => {
   const [revenueData, setRevenueData] = useState<StockMonthRevenueType['data']>();
   const filteredRevenueData = useMemo(() => revenueData?.slice(12), [revenueData]); //去掉前12个
   const [loading, setLoading] = useState(false);
-
-  const stockTitle = useStore((state) => state.stockTitle);
 
   const handleRangeChange = (e: SelectChangeEvent) => {
     setRange(e.target.value);

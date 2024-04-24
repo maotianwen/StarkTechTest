@@ -8,12 +8,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { getTaiwanStockInfo } from '../lib/fetch';
 import type { StockInfoType, ArrayElementType } from '../lib/definitions';
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: { id?: string };
+}) {
   const opt = await getTaiwanStockInfo({});
   let options: (ArrayElementType<StockInfoType['data']> & { index: number })[] = [];
   if (opt.status === 200) {
     options = opt.data.map((item, index) => ({ ...item, index }));
   }
+  const defaultValue = options.find(
+    (item) => `${item.stock_id}_${item.index}` === searchParams?.id
+  );
+  const stockTitle = `${defaultValue?.stock_name}（${defaultValue?.stock_id}）`;
   return (
     <Suspense fallback={<CircularProgress />}>
       <Header options={options} />
@@ -23,7 +31,7 @@ export default async function HomePage() {
             <SideBar />
           </Grid>
           <Grid item sm={12} lg={8}>
-            <StockData />
+            <StockData stockTitle={stockTitle} />
           </Grid>
         </Grid>
       </Container>
