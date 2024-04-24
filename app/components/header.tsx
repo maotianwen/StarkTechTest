@@ -1,33 +1,25 @@
+'use client';
+
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getTaiwanStockInfo } from '../lib/fetch';
 import CircularProgress from '@mui/material/CircularProgress';
 import type { StockInfoType, ArrayElementType } from '../lib/definitions';
 import Paper from '@mui/material/Paper';
 import { useStore } from '@/app/store';
 
-const Header = () => {
+const Header = ({
+  options,
+}: {
+  options: (ArrayElementType<StockInfoType['data']> & { index: number })[];
+}) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const setStockTitle = useStore((state) => state.setStockTitle);
-
-  const [options, setOptions] = useState<
-    (ArrayElementType<StockInfoType['data']> & { index: number })[]
-  >([]);
-
-  useEffect(() => {
-    (async () => {
-      const opt = await getTaiwanStockInfo({});
-      if (opt.status === 200) {
-        setOptions(opt.data.map((item, index) => ({ ...item, index })));
-      }
-    })();
-  }, []);
 
   const [value, setValue] = useState<ArrayElementType<typeof options> | null>(null);
   useEffect(() => {

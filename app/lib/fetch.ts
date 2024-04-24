@@ -8,7 +8,7 @@ async function get<Req extends Record<string, string>, Res>(
 ): Promise<Res> {
   const queryParams = new URLSearchParams(params).toString();
   const request = new Request(`${baseUrl}/${path}?${queryParams}`, { method: 'GET' });
-  const res: Promise<Res> = (await window.fetch(request)).json();
+  const res: Promise<Res> = (await fetch(request)).json();
   return res;
 }
 
