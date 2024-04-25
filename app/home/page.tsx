@@ -21,7 +21,9 @@ export default async function HomePage({
   const defaultValue = options.find(
     (item) => `${item.stock_id}_${item.index}` === searchParams?.id
   );
-  const stockTitle = `${defaultValue?.stock_name}（${defaultValue?.stock_id}）`;
+  const stockTitle = defaultValue
+    ? `${defaultValue?.stock_name}（${defaultValue?.stock_id}）`
+    : '';
   return (
     <Suspense fallback={<CircularProgress />}>
       <Header options={options} />
